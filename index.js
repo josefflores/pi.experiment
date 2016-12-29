@@ -2,8 +2,8 @@ var gpio = require('rpi-gpio');
 
 var run = true;
 
-var on = (pin)=>{
-    gpio.setup(pin, gpio.DIR_OUT, ()=>{
+var on = function(pin){
+    gpio.setup(pin, gpio.DIR_OUT, function(){
         gpio.write(pin, true, (err)=>{
             if (err) throw err;
             console.log('PIN  ON: ' + pin);
@@ -11,10 +11,11 @@ var on = (pin)=>{
     });
 };
 
-var off = (pin)=>{
-    gpio.setup(pin, gpio.DIR_OUT, ()=>{
-        gpio.write(pin, false, (err)=>{
+var off = function(pin){
+    gpio.setup(pin, gpio.DIR_OUT, function(){
+        gpio.write(pin, false, function(err){
             if (err) throw err;
+            run = false;
             console.log('PIN OFF: ' + pin);
         });
     });
@@ -22,8 +23,7 @@ var off = (pin)=>{
 
 on(16);
 
-var end = setInterval(()=>{
-    run = false;
+var end = setInterval(function(){
     off(16);
 }, 1000);
 
