@@ -27,7 +27,7 @@ interval = setInterval(function() { //#C
 
     console.log('---');
 
-    if (value = getRandomInt(0, 5)) == 3)
+    if ((value = getRandomInt(0, 5)) == 3)
         console.log('W');
 
     if (value > 3)
