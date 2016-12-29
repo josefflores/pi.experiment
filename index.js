@@ -5,8 +5,16 @@ var Gpio = onoff.Gpio,
 
 var led = {r:null,g:null,b:null};
 
-var flip = function(val, target){
-    return (val == target ? 1 : 0);
+function flip(val, target){
+    if(val == target)
+        return 1
+    return 0;
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 led.r = new Gpio(22, 'out');
@@ -14,7 +22,7 @@ led.g = new Gpio(17, 'out');
 led.b = new Gpio(27, 'out');
 
 interval = setInterval(function () { //#C
-  var value = Math.random() % 3; //#D
+  var value = getRandomInt(0,3); //#D
   led.r.write(flip(value, 0), null);
   led.g.write(flip(value, 1), null);
   led.b.write(flip(value, 2), null);
