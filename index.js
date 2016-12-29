@@ -43,6 +43,7 @@ var pins = {
 
 function rgbRandom() {
     function bitsOn(input, mask){
+        console.log(input & mask);
         return (input & mask) > 0 ? true : false
     };
 
