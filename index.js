@@ -5,7 +5,7 @@ var led = {r:null,g:null,b:null};
 var Gpio = onoff.Gpio,
     interval;
 
-led.r = new Gpio(4, 'out');
+led.r = new Gpio(22, 'out');
 led.g = new Gpio(17, 'out');
 led.b = new Gpio(27, 'out');
 
