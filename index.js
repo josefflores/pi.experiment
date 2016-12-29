@@ -35,12 +35,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-var pins = {
-    r: new Gpio(27, 'out'),
-    g: new Gpio(17, 'out'),
-    b: new Gpio(4, 'out')
-};
-
 function rgbRandom() {
     function bitsOn(input, mask){
         return ((input & mask) > 0 ? 1 : 0);
@@ -52,20 +46,50 @@ function rgbRandom() {
         FLAG_G = 2,
         FLAG_B = 1;
 
-    console.log('---');
+    // 000 OFF
+    // 001 BLUE
+    // 010 GREEN
+    // 011 CYAN
+    // 100 RED
+    // 101 PINK
+    // 110 YELLOW
+    // 111 WHITE
+
     pins.r.write(r = bitsOn(flags, FLAG_R), function(){
-        if (r) console.log('R');
+        // if (r) console.log('R');
     });
     pins.g.write(g = bitsOn(flags, FLAG_G), function(){
-        if (g) console.log('G');
+        // if (g) console.log('G');
     });
     pins.b.write(b = bitsOn(flags, FLAG_B), function(){
-        if (b) console.log('B');
+        // if (b) console.log('B');
     });
 };
 
+
+
+var pins = {
+    r: new Gpio(27, 'out'),
+    g: new Gpio(17, 'out'),
+    b: new Gpio(4, 'out'),
+    b_in: new Gpio(23, 'in'),
+    b_out: new Gpio(24, 'out')
+};
+
+// Feed power to button
+pins.b_in.write(1, function(){
+    // if (r) console.log('R');
+});
+
+b_out.watch(function (err, value) {
+    if (err) throw err;
+    console.log('button', value);
+});
+
+// Blink light
 interval = setInterval(rgbRandom, 2000);
 
+// Kill power on exit
 process.on('SIGINT', function() { //#F
     clearInterval(interval);
 
