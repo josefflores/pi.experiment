@@ -22,10 +22,10 @@ led.g = new Gpio(17, 'out');
 led.b = new Gpio(27, 'out');
 
 interval = setInterval(function () { //#C
-  var value = getRandomInt(0,3); //#D
-  led.r.write(flip(value, 0), null);
-  led.g.write(flip(value, 1), null);
-  led.b.write(flip(value, 2), null);
+  var value = getRandomInt(0,4); //#D
+  led.r.write(flip(value, 0, 4), null);
+  led.g.write(flip(value, 1, 4), null);
+  led.b.write(flip(value, 2, 4), null);
 }, 2000);
 
 process.on('SIGINT', function () { //#F
