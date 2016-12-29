@@ -51,9 +51,16 @@ function rgbRandom() {
         FLAG_G = 2,
         FLAG_B = 1;
 
-    pins.r.write(bitsOn(flags, FLAG_R), function(){});
-    pins.g.write(bitsOn(flags, FLAG_G), function(){});
-    pins.b.write(bitsOn(flags, FLAG_B), function(){});
+    console.log('---');
+    pins.r.write(bitsOn(flags, FLAG_R), function(){
+        console.log('R');
+    });
+    pins.g.write(bitsOn(flags, FLAG_G), function(){
+        console.log('G');
+    });
+    pins.b.write(bitsOn(flags, FLAG_B), function(){
+        console.log('B');
+    });
 };
 
 interval = setInterval(rgbRandom, 2000);
