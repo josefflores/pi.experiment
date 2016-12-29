@@ -1,8 +1,10 @@
-import pin from 'pi-gpio';
+var  pin = require('pi-gpio');
 
 pin.open(16, 'output', (err)=>{
     pin.write(16, 1, ()=>{
-        pin.close(16);
+        setTimeout(()=>{
+            pin.close(16);
+        }, 5000);
     });
 });
 
