@@ -6,8 +6,8 @@ var Gpio = onoff.Gpio,
     interval;
 
 led.r = new Gpio(4, 'out');
-led.g = new Gpio(4, 'out');
-led.b = new Gpio(4, 'out');
+led.g = new Gpio(17, 'out');
+led.b = new Gpio(27, 'out');
 
 interval = setInterval(function () { //#C
   var value = (led.r.readSync() + 1) % 2; //#D
