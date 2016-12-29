@@ -23,9 +23,9 @@ led.b = new Gpio(27, 'out');
 
 interval = setInterval(function () { //#C
   var value = getRandomInt(0,5); //#D
-  led.r.write(flip(value, [0, 3]), null);
-  led.g.write(flip(value, [1, 3]), null);
-  led.b.write(flip(value, [2, 3]), null);
+  led.r.write(flip(value, [0, 3]), function () {});
+  led.g.write(flip(value, [1, 3]), function () {});
+  led.b.write(flip(value, [2, 3]), function () {});
 }, 2000);
 
 process.on('SIGINT', function () { //#F
