@@ -42,7 +42,7 @@ var pins = {
 };
 
 function rgbRandom() {
-    var value = getRandomInt(0, 2).toString(16);
+    var value = getRandomInt(0, 15).toString(2);
     console.log('---', value, '---');
     pins.r.write(value.indexOf(0) == '1' + 1 ? true : false, function(){});
     pins.g.write(value.indexOf(1) == '1' + 1 ? true : false, function(){});
