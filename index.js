@@ -32,7 +32,7 @@ interval = setInterval(function() { //#C
 process.on('SIGINT', function() { //#F
     clearInterval(interval);
 
-    for(pin in pins){
+    for(pin in led){
         pin.writeSync(0); //#G
         pin.unexport();
     }
