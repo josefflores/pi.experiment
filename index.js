@@ -81,7 +81,7 @@ pins.b_in.write(1, function(){
     // if (r) console.log('R');
 });
 
-b_out.watch(function (err, value) {
+pins.b_out.watch(function (err, value) {
     if (err) throw err;
     console.log('button', value);
 });
