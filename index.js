@@ -32,10 +32,10 @@ interval = setInterval(function() { //#C
 process.on('SIGINT', function() { //#F
     clearInterval(interval);
 
-    pins.forEach(function(pin){
-        pin.writeSync(0); //#G
-        pin.unexport();
-    });
+    for (var i in pins) {
+        pins[i].writeSync(0); //#G
+        pins[i].unexport();
+    }
 
     process.exit();
 });
