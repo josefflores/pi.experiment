@@ -19,6 +19,7 @@ var off = (pin)=>{
 on(16);
 
 var end = setTimeout(()=>{
+    console.log(".");
     off(16);
     clearTimeout(end);
 }, 1000);
