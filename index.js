@@ -47,19 +47,20 @@ function rgbRandom() {
     };
 
     var flags = getRandomInt(0, 7);
+        f,
         FLAG_R = 4,
         FLAG_G = 2,
         FLAG_B = 1;
 
     console.log('---');
-    pins.r.write(bitsOn(flags, FLAG_R), function(){
-        console.log('R');
+    pins.r.write(f = bitsOn(flags, FLAG_R), function(){
+        if (f) console.log('R');
     });
-    pins.g.write(bitsOn(flags, FLAG_G), function(){
-        console.log('G');
+    pins.g.write(f = bitsOn(flags, FLAG_G), function(){
+        if (f) console.log('G');
     });
-    pins.b.write(bitsOn(flags, FLAG_B), function(){
-        console.log('B');
+    pins.b.write(f = bitsOn(flags, FLAG_B), function(){
+        if (f) console.log('B');
     });
 };
 
