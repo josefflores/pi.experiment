@@ -18,7 +18,7 @@ var off = (pin)=>{
 
 on(16);
 
-settimeout(1000, ()=>{
+setTimeout(()=>{
     off(16);
-});
+}, 1000);
 
