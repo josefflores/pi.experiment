@@ -10,7 +10,7 @@ led.g = new Gpio(4, 'out');
 led.b = new Gpio(4, 'out');
 
 interval = setInterval(function () { //#C
-  var value = (led.readSync() + 1) % 2; //#D
+  var value = (led.r.readSync() + 1) % 2; //#D
   led.r.write(value, null);
   led.g.write(value, null);
   led.b.write(value, null);
