@@ -14,7 +14,7 @@ led.g = new Gpio(17, 'out');
 led.b = new Gpio(27, 'out');
 
 interval = setInterval(function () { //#C
-  var value = getTime() % 3; //#D
+  var value = Math.random() % 3; //#D
   led.r.write(flip(value, 0), null);
   led.g.write(flip(value, 1), null);
   led.b.write(flip(value, 2), null);
