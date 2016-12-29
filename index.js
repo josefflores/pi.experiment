@@ -1,37 +1,28 @@
-var gpio = require('rpi-gpio');
+var onoff = require('onoff'); //#A
 
-var run = true;
+var Gpio = onoff.Gpio,
+  led = new Gpio(4, 'out'), //#B
+  interval;
 
-var on = function(pin){
-    gpio.setup(pin, gpio.DIR_OUT, function(){
-        gpio.write(pin, true, (err)=>{
-            if (err) throw err;
-            console.log('PIN  ON: ' + pin);
-        });
-    });
-};
+interval = setInterval(function () { //#C
+  var value = (led.readSync() + 1) % 2; //#D
+  led.write(value, function() { //#E
+    console.log("Changed LED state to: " + value);
+  });
+}, 2000);
 
-var off = function(pin){
-    gpio.setup(pin, gpio.DIR_OUT, function(){
-        gpio.write(pin, false, function(err){
-            if (err) throw err;
-            run = false;
-            console.log('PIN OFF: ' + pin);
-        });
-    });
-};
+process.on('SIGINT', function () { //#F
+  clearInterval(interval);
+  led.writeSync(0); //#G
+  led.unexport();
+  console.log('Bye, bye!');
+  process.exit();
+});
 
-on(16);
-
-var end = setInterval(function(){
-    off(16);
-}, 1000);
-
-console.log('LOOP');
-while(run);
-
-console.log('END');
-clearInterval(end);
-
-console.log('RET');
-return true;
+// #A Import the onoff library
+// #B Initialize pin 4 to be an output pin
+// #C This interval will be called every 2 seconds
+// #D Synchronously read the value of pin 4 and transform 1 to 0 or 0 to 1
+// #E Asynchronously write the new value to pin 4
+// #F Listen to the event triggered on CTRL+C
+// #G Cleanly close the GPIO pin before exiting
