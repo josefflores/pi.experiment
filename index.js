@@ -1,6 +1,6 @@
 // IMPORTS
 var onoff = require('onoff'); //#A
-var led = {r,g,b};
+var led = {r:null,g:null,b:null};
 
 var Gpio = onoff.Gpio,
     interval;
