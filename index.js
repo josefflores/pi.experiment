@@ -1,42 +1,40 @@
 // IMPORTS
-var onoff = require('onoff'); //#A
+var onoff = require('onoff');
+
 var Gpio = onoff.Gpio,
     interval;
 
-var led = {r:null,g:null,b:null};
-
-function flip(val, target){
-    if(target.indexOf(val)+1)
+function flip(val, target) {
+    if (target.indexOf(val) + 1)
         return 1;
     return 0;
 }
 
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
 }
 
-led.r = new Gpio(22, 'out');
-led.g = new Gpio(17, 'out');
-led.b = new Gpio(27, 'out');
+var led = {
+    r: new Gpio(22, 'out'),
+    g: new Gpio(17, 'out'),
+    b: new Gpio(27, 'out')
+};
 
-interval = setInterval(function () { //#C
-  var value = getRandomInt(0,5); //#D
-  led.r.write(flip(value, [0, 3]), function () {});
-  led.g.write(flip(value, [1, 3]), function () {});
-  led.b.write(flip(value, [2, 3]), function () {});
+interval = setInterval(function() { //#C
+    var value = getRandomInt(0, 5); //#D
+    led.r.write(flip(value, [0, 3]), function () {});
+    led.g.write(flip(value, [1, 3]), function () {});
+    led.b.write(flip(value, [2, 3]), function () {});
 }, 2000);
 
-process.on('SIGINT', function () { //#F
-  clearInterval(interval);
-    led.r.writeSync(0); //#G
-    led.g.writeSync(0); //#G
-    led.b.writeSync(0); //#G
-
-    led.r.unexport();
-    led.g.unexport();
-    led.b.unexport();
+process.on('SIGINT', function() { //#F
+    clearInterval(interval);
+    led.forEach(function(val){
+        val.writeSync(0); //#G
+        val.unexport();
+    })
 
     process.exit();
 });
