@@ -46,7 +46,7 @@ function rgbRandom() {
         return ((input & mask) > 0) ;
     };
 
-    var flags = getRandomInt(0, 7);
+    var flags = getRandomInt(0, 7),
         f,
         FLAG_R = 4,
         FLAG_G = 2,
