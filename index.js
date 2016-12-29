@@ -42,7 +42,7 @@ var pins = {
 };
 
 function rgbRandom() {
-    var flags = (getRandomInt(0, 7) >>> 0);
+    var flags = getRandomInt(0, 7);
         FLAG_R = 4,
         FLAG_G = 2,
         FLAG_B = 1;
