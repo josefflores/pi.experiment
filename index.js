@@ -22,6 +22,10 @@ var pins = {
     b: new Gpio(4, 'out')
 };
 
+pins.b.write(flip(1, [0]), function () {});
+
+return 0;
+
 interval = setInterval(function() { //#C
     var value;
 
