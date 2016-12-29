@@ -1,22 +1,32 @@
+// IMPORTS
 var onoff = require('onoff'); //#A
+var led = {r,g,b};
 
 var Gpio = onoff.Gpio,
-  led = new Gpio(4, 'out'), //#B
-  interval;
+    interval;
+
+led.r = new Gpio(4, 'out');
+led.g = new Gpio(4, 'out');
+led.b = new Gpio(4, 'out');
 
 interval = setInterval(function () { //#C
   var value = (led.readSync() + 1) % 2; //#D
-  led.write(value, function() { //#E
-    console.log("Changed LED state to: " + value);
-  });
+  led.r.write(value, null);
+  led.g.write(value, null);
+  led.b.write(value, null);
 }, 2000);
 
 process.on('SIGINT', function () { //#F
   clearInterval(interval);
-  led.writeSync(0); //#G
-  led.unexport();
-  console.log('Bye, bye!');
-  process.exit();
+    led.r.writeSync(0); //#G
+    led.g.writeSync(0); //#G
+    led.b.writeSync(0); //#G
+
+    led.r.unexport();
+    led.g.unexport();
+    led.b.unexport();
+
+    process.exit();
 });
 
 // #A Import the onoff library
