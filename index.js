@@ -1,5 +1,7 @@
 var gpio = require('rpi-gpio');
 
+var run = true;
+
 var on = (pin)=>{
     gpio.setup(pin, gpio.DIR_OUT, ()=>{
         gpio.write(pin, true, (err)=>{
@@ -19,8 +21,11 @@ var off = (pin)=>{
 on(16);
 
 var end = setInterval(()=>{
-    console.log(".");
+    run = false;
     off(16);
-    clearInterval(end);
 }, 1000);
+
+while(run) ;
+clearInterval(end);
+
 
