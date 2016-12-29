@@ -43,10 +43,10 @@ var pins = {
 
 function rgbRandom() {
     var value = getRandomInt(0, 16).toString(16);
-    console.log('---');
-    pins.r.write(value.indexOf(0) == '1' + 1 ? true : false);
-    pins.g.write(value.indexOf(1) == '1' + 1 ? true : false);
-    pins.b.write(value.indexOf(2) == '1' + 1 ? true : false);
+    console.log('---', value, '---');
+    pins.r.write(value.indexOf(0) == '1' + 1 ? true : false, function(){});
+    pins.g.write(value.indexOf(1) == '1' + 1 ? true : false, function(){});
+    pins.b.write(value.indexOf(2) == '1' + 1 ? true : false, function(){});
 };
 
 interval = setInterval(rgbRandom, 2000);
