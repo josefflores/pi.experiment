@@ -26,6 +26,7 @@ var end = setInterval(()=>{
 }, 1000);
 
 while(run) ;
+
 clearInterval(end);
 
-
+return true;
