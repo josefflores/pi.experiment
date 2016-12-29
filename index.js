@@ -34,17 +34,17 @@ interval = setInterval(function() { //#C
         console.log('OFF');
 
     pins.r.write(flip(value, [0, 3]), function () {
-        if (value != 3)
+        if (value == 0)
             console.log("R");
     });
 
     pins.g.write(flip(value, [1, 3]), function () {
-        if (value != 3)
+        if (value == 1)
             console.log("G");
     });
 
     pins.b.write(flip(value, [2, 3]), function () {
-        if (value != 3)
+        if (value == 2)
             console.log("B")
     });
 
