@@ -1,19 +1,23 @@
 // IMPORTS
 var onoff = require('onoff'); //#A
-var led = {r:null,g:null,b:null};
-
 var Gpio = onoff.Gpio,
     interval;
+
+var led = {r:null,g:null,b:null};
+
+var flip = function(val, target){
+    return (val == target ? 1 : 0);
+}
 
 led.r = new Gpio(22, 'out');
 led.g = new Gpio(17, 'out');
 led.b = new Gpio(27, 'out');
 
 interval = setInterval(function () { //#C
-  var value = (led.r.readSync() + 1) % 2; //#D
-  led.r.write(value, null);
-  led.g.write(value, null);
-  led.b.write(value, null);
+  var value = (led.r.readSync() + 1) % 3; //#D
+  led.r.write(flip(value, 0), null);
+  led.g.write(flip(value, 1), null);
+  led.b.write(flip(value, 2), null);
 }, 2000);
 
 process.on('SIGINT', function () { //#F
