@@ -19,7 +19,7 @@ function getRandomInt(min, max) {
 var pins = {
     r: new Gpio(22, 'out'),
     g: new Gpio(17, 'out'),
-    b: new Gpio(27, 'out')
+    b: new Gpio(4, 'out')
 };
 
 interval = setInterval(function() { //#C
