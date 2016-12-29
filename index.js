@@ -43,7 +43,7 @@ var pins = {
 
 function rgbRandom() {
     function bitsOn(input, mask){
-        return ((input & mask) > 0) ;
+        return ((input & mask) > 0 ? 1 : 0);
     };
 
     var flags = getRandomInt(0, 7),
