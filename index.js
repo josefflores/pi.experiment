@@ -16,7 +16,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-var led = {
+var pins = {
     r: new Gpio(22, 'out'),
     g: new Gpio(17, 'out'),
     b: new Gpio(27, 'out')
@@ -24,18 +24,18 @@ var led = {
 
 interval = setInterval(function() { //#C
     var value = getRandomInt(0, 5); //#D
-    led.r.write(flip(value, [0, 3]), function () {});
-    led.g.write(flip(value, [1, 3]), function () {});
-    led.b.write(flip(value, [2, 3]), function () {});
+    pins.r.write(flip(value, [0, 3]), function () {});
+    pins.g.write(flip(value, [1, 3]), function () {});
+    pins.b.write(flip(value, [2, 3]), function () {});
 }, 2000);
 
 process.on('SIGINT', function() { //#F
     clearInterval(interval);
 
-    for(pin in led){
+    pins.forEach(function(pin){
         pin.writeSync(0); //#G
         pin.unexport();
-    }
+    });
 
     process.exit();
 });
