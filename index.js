@@ -42,6 +42,10 @@ var pins = {
 };
 
 function rgbRandom() {
+    function bitsOn(input, mask){
+        return (input & mask) > 0 ? true : false
+    };
+
     var flags = getRandomInt(0, 7);
         FLAG_R = 4,
         FLAG_G = 2,
@@ -51,9 +55,9 @@ function rgbRandom() {
                 flags & FLAG_G,
                 flags & FLAG_B);
 
-    pins.r.write(flags & FLAG_R ? true : false, function(){});
-    pins.g.write(flags & FLAG_G ? true : false, function(){});
-    pins.b.write(flags & FLAG_B ? true : false, function(){});
+    pins.r.write(bitsOn(flags, FLAG_R), function(){});
+    pins.g.write(bitsOn(flags, FLAG_G), function(){});
+    pins.b.write(bitsOn(flags, FLAG_B), function(){});
 };
 
 interval = setInterval(rgbRandom, 2000);
