@@ -78,7 +78,7 @@ var pins = {
 
 // Feed power to button
 pins.b_in.write(1, function(){
-    // if (r) console.log('R');
+    console.log('button on');
 });
 
 pins.b_out.watch(function (err, value) {
