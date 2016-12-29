@@ -72,7 +72,7 @@ var pins = {
     r: new Gpio(27, 'out'),
     g: new Gpio(17, 'out'),
     b: new Gpio(4, 'out'),
-    b_in: new Gpio(23, 'in'),
+    b_in: new Gpio(23, 'in', 'both'),
     b_out: new Gpio(24, 'out')
 };
 
