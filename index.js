@@ -23,16 +23,31 @@ var pins = {
 };
 
 interval = setInterval(function() { //#C
-    var value = getRandomInt(0, 5); //#D
+    var value;
+
+    console.log('---');
+
+    if (value = getRandomInt(0, 5)) == 3)
+        console.log('W');
+
+    if (value > 3)
+        console.log('OFF');
+
     pins.r.write(flip(value, [0, 3]), function () {
-        console.log("R");
+        if (value != 3)
+            console.log("R");
     });
+
     pins.g.write(flip(value, [1, 3]), function () {
-        console.log("G");
+        if (value != 3)
+            console.log("G");
     });
+
     pins.b.write(flip(value, [2, 3]), function () {
-        console.log("B")
+        if (value != 3)
+            console.log("B")
     });
+
 }, 2000);
 
 process.on('SIGINT', function() { //#F
