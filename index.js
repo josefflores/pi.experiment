@@ -42,11 +42,16 @@ var pins = {
 };
 
 function rgbRandom() {
-    var value = getRandomInt(0, 15).toString(2);
-    console.log('---', value, '---');
-    pins.r.write(value.indexOf(0) == '1' + 1 ? true : false, function(){});
-    pins.g.write(value.indexOf(1) == '1' + 1 ? true : false, function(){});
-    pins.b.write(value.indexOf(2) == '1' + 1 ? true : false, function(){});
+    var flags = (getRandomInt(0, 7) >>> 0);
+        FLAG_R = 4,
+        FLAG_G = 2,
+        FLAG_B = 1;
+
+    console.log('---', value.toString(2), '---');
+
+    pins.r.write(flags & FLAG_R, function(){});
+    pins.g.write(flags & FLAG_G, function(){});
+    pins.b.write(flags & FLAG_B, function(){});
 };
 
 interval = setInterval(rgbRandom, 2000);
