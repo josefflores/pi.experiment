@@ -49,9 +49,9 @@ function rgbRandom() {
 
     console.log('---', flags, '---');
 
-    pins.r.write(flags & FLAG_R, function(){});
-    pins.g.write(flags & FLAG_G, function(){});
-    pins.b.write(flags & FLAG_B, function(){});
+    pins.r.write(flags & FLAG_R > 0, function(){});
+    pins.g.write(flags & FLAG_G > 0, function(){});
+    pins.b.write(flags & FLAG_B > 0, function(){});
 };
 
 interval = setInterval(rgbRandom, 2000);
