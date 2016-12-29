@@ -51,10 +51,6 @@ function rgbRandom() {
         FLAG_G = 2,
         FLAG_B = 1;
 
-    console.log(flags & FLAG_R,
-                flags & FLAG_G,
-                flags & FLAG_B);
-
     pins.r.write(bitsOn(flags, FLAG_R), function(){});
     pins.g.write(bitsOn(flags, FLAG_G), function(){});
     pins.b.write(bitsOn(flags, FLAG_B), function(){});
