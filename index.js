@@ -4,12 +4,31 @@ var onoff = require('onoff');
 var Gpio = onoff.Gpio,
     interval;
 
-function flip(val, target) {
-    if (target.indexOf(val) + 1)
-        return 1;
-    return 0;
+/**
+ *  Opens or closes a pin
+ *
+ *  @function match
+ *  @param key: <number>: The key to try
+ *  @param lock: <array<number>> | <number>: The keys that open the circuit
+ *  @return <bool>: The current state of the pin
+ */
+function match(val, target) {
+    if ((typeof(target) == 'array'  && target.indexOf(val) + 1 ) ||
+        (typeof(target) == 'number' && target == val))
+        return true;
+    return false;
 }
 
+/**
+ *  Returns a random integer between min and max
+ *
+ *  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+ *
+ *  @function getRandomInt
+ *  @param min: <number>: lower include bound
+ *  @param max: <number>: upper excluded bound
+ *  @returns <number>: The random number within the range
+ */
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -22,33 +41,15 @@ var pins = {
     b: new Gpio(4, 'out')
 };
 
-interval = setInterval(function() { //#C
-    var value;
-
+function rgbRandom() {
+    var value = getRandomInt(0, 16).toString(16);
     console.log('---');
+    pins.r.write(value.index(0) == '1' + 1 ? true : false);
+    pins.g.write(value.index(1) == '1' + 1 ? true : false);
+    pins.b.write(value.index(2) == '1' + 1 ? true : false);
+};
 
-    if ((value = getRandomInt(0, 5)) == 3)
-        console.log('W');
-
-    if (value > 3)
-        console.log('OFF');
-
-    pins.r.write(flip(value, [0, 3]), function () {
-        if (value == 0)
-            console.log("R");
-    });
-
-    pins.g.write(flip(value, [1, 3]), function () {
-        if (value == 1)
-            console.log("G");
-    });
-
-    pins.b.write(flip(value, [2, 3]), function () {
-        if (value == 2)
-            console.log("B")
-    });
-
-}, 2000);
+interval = setInterval(rgbRandom, 2000);
 
 process.on('SIGINT', function() { //#F
     clearInterval(interval);
@@ -60,11 +61,3 @@ process.on('SIGINT', function() { //#F
 
     process.exit();
 });
-
-// #A Import the onoff library
-// #B Initialize pin 4 to be an output pin
-// #C This interval will be called every 2 seconds
-// #D Synchronously read the value of pin 4 and transform 1 to 0 or 0 to 1
-// #E Asynchronously write the new value to pin 4
-// #F Listen to the event triggered on CTRL+C
-// #G Cleanly close the GPIO pin before exiting
