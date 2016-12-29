@@ -31,10 +31,11 @@ interval = setInterval(function() { //#C
 
 process.on('SIGINT', function() { //#F
     clearInterval(interval);
-    led.forEach(function(val){
-        val.writeSync(0); //#G
-        val.unexport();
-    })
+
+    for(pin in pins){
+        pin.writeSync(0); //#G
+        pin.unexport();
+    }
 
     process.exit();
 });
