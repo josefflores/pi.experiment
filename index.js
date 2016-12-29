@@ -44,9 +44,9 @@ var pins = {
 function rgbRandom() {
     var value = getRandomInt(0, 16).toString(16);
     console.log('---');
-    pins.r.write(value.index(0) == '1' + 1 ? true : false);
-    pins.g.write(value.index(1) == '1' + 1 ? true : false);
-    pins.b.write(value.index(2) == '1' + 1 ? true : false);
+    pins.r.write(value.indexOf(0) == '1' + 1 ? true : false);
+    pins.g.write(value.indexOf(1) == '1' + 1 ? true : false);
+    pins.b.write(value.indexOf(2) == '1' + 1 ? true : false);
 };
 
 interval = setInterval(rgbRandom, 2000);
