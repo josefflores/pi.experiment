@@ -26,14 +26,11 @@ var Button = function (pin, toggle_state, on, off) {
     //  FUNCTIONS
 
     var moment = function (value) {
-        state.history.push(value)
         state.switch = value && 1;
         console.log(value);
     };
 
     var toggle = function (value) {
-        state.history.push(value)
-
         if (state.history[0] == 1 &&
             state.history[1] == 0)
             state.switch = !state.switch;
@@ -84,6 +81,7 @@ var Button = function (pin, toggle_state, on, off) {
 
     button.watch(function (err, value) {
         if (err) throw err;
+        state.history.shift(value)
         toggle_state ? toggle(value) : moment(value);
         click();        // Determine if a click and count consecutive clicks
         press();        // Determine if a press and measure duration
