@@ -82,8 +82,9 @@ pins.b_in.write(1, function(){
 });
 
 pins.b_out.watch(function (err, value) {
+    console.log(err, value);
     if (err) throw err;
-    console.log(value);
+
     pins.r.write(value, function(){
         console.log('R');
     });
