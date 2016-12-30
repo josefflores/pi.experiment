@@ -11,8 +11,6 @@ var Button = function (pin, toggle_state, on, off) {
         start = 0,
         state = {
             history: [0],
-            click: false,
-            press: false,
             duration: 0,
             switch: false,
         };
@@ -42,14 +40,6 @@ var Button = function (pin, toggle_state, on, off) {
 
         if (state.history[0] == 0 &&
             state.history[1] == 1) {
-
-            if ((state.history[2] == 0) ||
-                (state.history[2] == 1 && state.history[3] == 0)) {
-                state.click = true;
-                ++state.count
-            } else if (state.history[2] == 1 && state.history[3] == 1) {
-                state.press = true;
-            }
 
             state.duration = Date.now() - start;
             start = 0;
