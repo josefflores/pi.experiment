@@ -2,6 +2,7 @@
 var Gpio = require('onoff').Gpio;
 
 var RGB = require('./js/RGB');
+var Pins = require('./js/Pins');
 
 //  VARIABLES
 
