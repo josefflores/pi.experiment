@@ -2,8 +2,8 @@
 
 var onoff = require('onoff');
 
-var RGB = require('./js/RGB');
-var Pins = require('./js/Pins');
+var RGB = require('../js/RGB');
+var Pins = require('../js/Pins');
 
 var Gpio = onoff.Gpio;
 
