@@ -34,16 +34,13 @@ var Button = function (pin, toggle_state, on, off) {
         state.duration = 0;
 
         //  Start clock if it has not been started
-        if (state.history[0] == 1 && start == 0) {
+        if (state.history[0] == 1 && start == 0)
             start = Date.now();
-        }
 
-        if (state.history[0] == 0 &&
-            state.history[1] == 1) {
+        state.duration = Date.now() - start;
 
-            state.duration = Date.now() - start;
+        if (state.history[0] == 0 && state.history[1] == 1)
             start = 0;
-        }
     };
 
     var click_count = function (history) {
