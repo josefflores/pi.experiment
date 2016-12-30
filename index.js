@@ -16,7 +16,7 @@ button.watch(function (err, value) {
     if (err) {
         throw err;
     }
-    led.state(4)
+    value ? led.state(4) : led.state(0);
     console.log(i++, '.', value);//led.writeSync(value);
 });
 
