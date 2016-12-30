@@ -83,11 +83,13 @@ pins.b_in.write(1, function(){
 
 pins.b_out.watch(function (err, value) {
     if (err) throw err;
-    console.log('button', value);
+    pins.r.write(value, function(){
+        // if (r) console.log('R');
+    });
 });
 
 // Blink light
-interval = setInterval(rgbRandom, 2000);
+//interval = setInterval(rgbRandom, 2000);
 
 // Kill power on exit
 process.on('SIGINT', function() { //#F
