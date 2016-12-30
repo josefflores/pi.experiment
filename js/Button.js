@@ -9,7 +9,7 @@ var Button = function (pin, toggle_state, on, off) {
     var button = new Gpio(pin, 'in', 'both'),
         length = 10,
         start = 0,
-        state = {
+        stats = {
             history: [0],
             duration: 0,
             switch: false,
@@ -18,45 +18,49 @@ var Button = function (pin, toggle_state, on, off) {
     //  FUNCTIONS
 
     var moment = function (value) {
-        state.switch = value;
+        stats.switch = value;
     };
 
     var toggle = function (value) {
-        if (state.history[0] == 1 &&
-            state.history[1] == 0)
-            state.switch = !state.switch;
+        if (stats.history[0] == 1 &&
+            stats.history[1] == 0)
+            stats.switch = !stats.switch;
     };
 
-    var metrics = function () {
-        state.duration = 0;
+    var metrics = function (value) {
+
+        stats.history.unshift(value);
 
         //  Start clock if it has not been started
-        if (state.history[0] == 1 && start == 0)
+        if (stats.history[0] == 1)
             start = Date.now();
 
-        state.duration = Date.now() - start;
+        stats.duration = Date.now() - start;
 
-        if (state.history[0] == 0 && state.history[1] == 1)
-            start = 0;
+        stats.history = stats.history.slice(0, length); // keep only 10 readings
+
+        return stats;
     };
 
     //  WATCHER
 
     button.watch(function (err, value) {
         if (err) throw err;
-        state.history.unshift(value);
+
+
         toggle_state ? toggle(value) : moment(value);
-        metrics();
-        state.history = state.history.slice(0, length); // keep only ten readings
-        state.switch ? on() : off();
-        console.log(state);
+
+        // Gather button metrics
+        console.log(metrics(value));
+
+        stats.switch ? on() : off();
     });
 
 
     return {
         button: button,
         stats: function () {
-            return state;
+            return stats;
         }
     }
 };
