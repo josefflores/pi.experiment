@@ -15,7 +15,6 @@ var Button = function (pin, toggle_state, on, off) {
             switch: false,
         };
 
-
     //  FUNCTIONS
 
     var moment = function (value) {
@@ -29,8 +28,6 @@ var Button = function (pin, toggle_state, on, off) {
     };
 
     var metrics = function () {
-        state.click = false;
-        state.press = false;
         state.duration = 0;
 
         //  Start clock if it has not been started
@@ -41,15 +38,6 @@ var Button = function (pin, toggle_state, on, off) {
 
         if (state.history[0] == 0 && state.history[1] == 1)
             start = 0;
-    };
-
-    var click_count = function (history) {
-        console.log(history);
-        if (history.length >= 2 &&
-            history[0] == 0 &&
-            history[1] == 1)
-            return 1 + click_count(history.slice(2))
-        return 1;
     };
 
     //  WATCHER
