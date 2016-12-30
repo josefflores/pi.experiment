@@ -1,3 +1,6 @@
+/**
+ * Non electronic helper functions
+ */
 
 //  CLASS
 

@@ -1,4 +1,6 @@
-// Resets all GPIO pins to zero incase anything was stuck
+/**
+ *  Resets all GPIO pins to zero incase anything was stuck.
+ */
 
 // IMPORTS
 

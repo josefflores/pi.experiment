@@ -1,3 +1,7 @@
+/**
+ *  Cycles through the RGB colors states (includes off)
+ */
+
 // IMPORTS
 
 var onoff = require('onoff');

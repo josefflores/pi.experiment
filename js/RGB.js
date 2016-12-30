@@ -1,3 +1,7 @@
+/**
+ *  Handles rgb led states
+ */
+
 // IMPORTS
 
 var onoff = require('onoff');

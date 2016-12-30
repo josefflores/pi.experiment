@@ -1,3 +1,7 @@
+/**
+ * Randomly choses an RGB color state including off. *
+ */
+
 // IMPORTS
 
 var onoff = require('onoff');
