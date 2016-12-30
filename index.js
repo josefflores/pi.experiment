@@ -72,16 +72,16 @@ var pins = {
     r: new Gpio(27, 'out'),
     g: new Gpio(17, 'out'),
     b: new Gpio(4, 'out'),
-    b_in: new Gpio(23, 'out'),
-    b_out: new Gpio(24, 'in', 'both')
+    b_23: new Gpio(23, 'out'),
+    b_24: new Gpio(24, 'in')
 };
 
 // Feed power to button
-pins.b_in.write(1, function(){
+pins.b_23.write(1, function(){
     console.log('button on');
 });
 
-pins.b_out.watch(function (err, value) {
+pins.b_24.watch(function (err, value) {
     console.log(err, value);
     if (err) throw err;
 
