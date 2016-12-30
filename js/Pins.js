@@ -4,8 +4,7 @@
 
 var onoff = require('onoff');
 
-var Gpio = onoff.Gpio,
-    interval;
+var Gpio = onoff.Gpio;
 
 //  CLASS
 
@@ -23,6 +22,7 @@ var Pins = function(){
                 26, 27];
 
     //  FUNCITONS
+
     /**
      *  Flip a bit on or off based on bit mask.
      *

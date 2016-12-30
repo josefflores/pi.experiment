@@ -27,7 +27,7 @@ var RGB = function (pin_r, pin_g, pin_b){
             G: 2,
             B: 1
         },
-        pins = {
+        p = {
             r: new Gpio(pin_r, 'out'),
             g: new Gpio(pin_g, 'out'),
             b: new Gpio(pin_b, 'out')
@@ -40,8 +40,7 @@ var RGB = function (pin_r, pin_g, pin_b){
      *  @function random
      */
     function random() {
-        var mask = Util.getRandomInt(0, 7);
-        state(mask);
+        state(Util.getRandomInt(0, 7));
     };
 
     /**
@@ -60,13 +59,13 @@ var RGB = function (pin_r, pin_g, pin_b){
      */
     function state(val){
         //  RED
-        pins.r.write(Pins.flip(val, mask.R),
+        p.r.write(Pins.flip(val, mask.R),
             function(){});
         //  GREEN
-        pins.g.write(Pins.flip(val, mask.G),
+        p.g.write(Pins.flip(val, mask.G),
             function(){});
         // BLUE
-        pins.b.write(Pins.flip(val, mask.B),
+        p.b.write(Pins.flip(val, mask.B),
             function(){});
     };
 
