@@ -37,9 +37,9 @@ var RGB = function (pin_r, pin_g, pin_b){
 
     /**
      *  Randomly chooses an RGB state
-     *  @function random
+     *  @function randomize
      */
-    function random() {
+    function randomize() {
         state(Util.getRandomInt(0, 7));
     };
 
@@ -83,7 +83,7 @@ var RGB = function (pin_r, pin_g, pin_b){
 
     return {
         state: state,
-        randomize: random,
+        randomize: randomize,
         cycle: cycle
     };
 };

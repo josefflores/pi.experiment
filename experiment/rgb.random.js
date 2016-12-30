@@ -12,7 +12,7 @@ var Gpio = onoff.Gpio;
 var led = new RGB(27,17,4);
 
 // Blink light
-var interval = setInterval(led.random, 2000);
+var interval = setInterval(led.randomize, 2000);
 
 // Kill power on exit
 process.on('SIGINT', function() { //#F
