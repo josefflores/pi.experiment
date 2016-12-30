@@ -8,11 +8,13 @@
  *  @param max: <number>: upper excluded bound
  *  @returns <number>: The random number within the range
  */
-var getRandomInt =  function(min, max) {
+var getRandomInt = function (min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
-}
+};
+
+// EXPORTS
 
 module.export = {
     getRandomInt: getRandomInt
