@@ -2,14 +2,15 @@
 
 var Gpio = require('onoff').Gpio;
 
-var Button = function(pin, toggle, on, off){
+var Button = function(pin, toggle_state, on, off){
 
     var button = new Gpio(pin, 'in', 'both');
 
     var state = {
         last: 0,
         curr: 0,
-        switch: false
+        switch: false,
+        toggle: toggle_state
     };
 
     //  FUNCTIONS
@@ -33,9 +34,8 @@ var Button = function(pin, toggle, on, off){
 
     button.watch(function (err, value) {
         if (err) throw err;
-        toggle ? toggle(value) : moment(value);
+        state.toggle ? toggle(value) : moment(value);
         state.switch ? on() : off();
-
     });
 
     return button;
