@@ -52,7 +52,7 @@ var Button = function (pin, toggle_state, on, off) {
     var press = function () {
         //  Start clock if it has not been started
         if (state.history[0] == 1 && start == 0) {
-            start = Date.getTime();
+            start = Date.now();
         }
 
         // A button press has ended
@@ -61,7 +61,7 @@ var Button = function (pin, toggle_state, on, off) {
             state.history[2] == 1 &&
             state.history[3] == 1){
                 state.press.was = true;
-                state.press.duration = Date.getTime() - start;
+                state.press.duration = Date.now() - start;
                 start = 0;
         } else {
             state.press.was = false;
