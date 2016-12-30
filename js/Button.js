@@ -29,9 +29,9 @@ var Button = function (pin, toggle_state, on, off) {
     };
 
     var metrics = function () {
-        state.click.was = false;
-        state.press.was = false;
-        state.press.duration = 0;
+        state.click = false;
+        state.press = false;
+        state.duration = 0;
 
         //  Start clock if it has not been started
         if (state.history[0] == 1 && start == 0) {
