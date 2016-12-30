@@ -16,9 +16,9 @@ var reset = function(pin){
         return false;
 
     var p = new Gpio(pin, 'out');
-    p.write(0, function () {});
-    p.writeSync(0); //#G
-    p.unexport();
+    //p.write(0, function () {});
+    //p.writeSync(0);
+    //p.unexport();
 
     return true;
 }
