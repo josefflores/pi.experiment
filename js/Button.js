@@ -45,13 +45,13 @@ var Button = function (pin, toggle_state, on, off) {
 
             if ((state.history[2] == 0) ||
                 (state.history[2] == 1 && state.history[3] == 0)) {
-                state.click.was = true;
-                ++state.click.count
+                state.click = true;
+                ++state.count
             } else if (state.history[2] == 1 && state.history[3] == 1) {
-                state.press.was = true;
+                state.press = true;
             }
 
-            state.press.duration = Date.now() - start;
+            state.duration = Date.now() - start;
             start = 0;
         }
     };
