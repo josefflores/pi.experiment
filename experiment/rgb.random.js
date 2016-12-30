@@ -5,17 +5,20 @@ var onoff = require('onoff');
 var RGB = require('./js/RGB');
 var Pins = require('./js/Pins');
 
-var Gpio = onoff.Gpio,
-    interval;
+var Gpio = onoff.Gpio;
+
+//  VARIABLES
 
 var led = new RGB(27,17,4);
 
 // Blink light
-interval = setInterval(led.cycle, 2000);
+var interval = setInterval(led.random, 2000);
 
 // Kill power on exit
 process.on('SIGINT', function() { //#F
+    pins = new Pins();
+
     clearInterval(interval);
-    Pins.resetAll();
+    pins.resetAll();
     process.exit();
 });

@@ -51,7 +51,7 @@ var RGB = function (pin_r, pin_g, pin_b){
      * 2 - 010 GREEN
      * 3 - 011 CYAN
      * 4 - 100 RED
-     * 5 - 101 PINK
+     * 5 - 101 PURPLE
      * 6 - 110 YELLOW
      * 7 - 111 WHITE
      *
