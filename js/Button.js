@@ -27,7 +27,7 @@ var Button = function (pin, toggle_state, on, off) {
 
     var moment = function (value) {
         state.switch = value;
-     };
+    };
 
     var toggle = function (value) {
         if (state.history[0] == 1 &&
@@ -36,15 +36,17 @@ var Button = function (pin, toggle_state, on, off) {
     };
 
     var click = function () {
-        if (state.history[0] == 0 &&
-            state.history[1] == 1 &&
-            state.history[2] == 0 ) {
-                state.click.was = true;
-                state.click.count = click_count(state.history);
-
-        } else {
-            state.click.was = false;
-            state.click.count = 0;
+        state.click.was = false;
+        if ((state.history[0] == 0 &&
+                state.history[1] == 1 &&
+                state.history[2] == 0) ||
+            (state.history[0] == 0 &&
+                state.history[1] == 1 &&
+                state.history[2] == 1 &&
+                state.history[3] == 0)) {
+            state.click.was = true;
+            start = 0;
+            ++state.click.count
         }
     };
 
@@ -58,10 +60,10 @@ var Button = function (pin, toggle_state, on, off) {
         if (state.history[0] == 0 &&
             state.history[1] == 1 &&
             state.history[2] == 1 &&
-            state.history[3] == 1){
-                state.press.was = true;
-                state.press.duration = Date.now() - start;
-                start = 0;
+            state.history[3] == 1) {
+            state.press.was = true;
+            state.press.duration = Date.now() - start;
+            start = 0;
         } else {
             state.press.was = false;
             state.press.duration = 0;
@@ -70,7 +72,7 @@ var Button = function (pin, toggle_state, on, off) {
 
     var click_count = function (history) {
         console.log(history);
-        if (history.length == 2 &&
+        if (history.length >= 2 &&
             history[0] == 0 &&
             history[1] == 1)
             return 1 + click_count(history.slice(2))
@@ -83,8 +85,8 @@ var Button = function (pin, toggle_state, on, off) {
         if (err) throw err;
         state.history.unshift(value);
         toggle_state ? toggle(value) : moment(value);
-        click();        // Determine if a click and count consecutive clicks
-        press();        // Determine if a press and measure duration
+        click(); // Determine if a click and count consecutive clicks
+        press(); // Determine if a press and measure duration
         state.history = state.history.slice(0, length); // keep only ten readings
         state.switch ? on() : off();
         console.log(state);
