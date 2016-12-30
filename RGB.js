@@ -1,7 +1,7 @@
 // IMPORTS
 var onoff = require('onoff');
 var Pins = require('./Pins');
-var Utilities = require('./js/Utilities');
+var Utilities = require('./Utilities');
 
 var Gpio = onoff.Gpio;
 
