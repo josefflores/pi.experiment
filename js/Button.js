@@ -89,6 +89,7 @@ var Button = function (pin, toggle_state, on, off) {
         press();        // Determine if a press and measure duration
         state.history = state.history.slice(0, length); // keep only ten readings
         state.switch ? on() : off();
+        console.log(state);
     });
 
 
