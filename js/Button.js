@@ -15,7 +15,9 @@ var Button = function(pin, toggle, on, off){
     //  FUNCTIONS
 
     var moment = function(value){
+
         state.switch = value && 1;
+        console.log(value , state.switch);
     };
 
     var toggle = function(value){
