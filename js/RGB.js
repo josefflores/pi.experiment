@@ -58,6 +58,8 @@ var RGB = function (pin_r, pin_g, pin_b){
      * @param val: <int>: The state value
      */
     function state(val){
+        console.log(Pins);
+
         //  RED
         p.r.write(Pins.flip(val, mask.R),
             function(){});
