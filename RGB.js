@@ -19,6 +19,7 @@ module.exports = function(pin_r, pin_g, pin_b){
     };
 
     function random() {
+        console.log(Utilities);
         var mask = Utilities.getRandomInt(0, 7);
         state(mask);
     };
