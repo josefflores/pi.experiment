@@ -16,6 +16,6 @@ var getRandomInt = function (min, max) {
 
 // EXPORTS
 
-module.export = {
+module.exports = {
     getRandomInt: getRandomInt
 };
