@@ -10,15 +10,12 @@ var Button = function(pin, toggle_state, on, off){
         last: 0,
         curr: 0,
         switch: false,
-        toggle: toggle_state
     };
 
     //  FUNCTIONS
 
     var moment = function(value){
-
         state.switch = value && 1;
-        console.log(value , state.switch);
     };
 
     var toggle = function(value){
@@ -34,7 +31,7 @@ var Button = function(pin, toggle_state, on, off){
 
     button.watch(function (err, value) {
         if (err) throw err;
-        state.toggle ? toggle(value) : moment(value);
+        toggle_state ? toggle(value) : moment(value);
         state.switch ? on() : off();
     });
 
