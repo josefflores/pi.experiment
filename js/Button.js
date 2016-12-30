@@ -19,7 +19,6 @@ var Button = function(pin, toggle, on, off){
     };
 
     var toggle = function(value){
-        if (err) throw err;
         state.last = state.curr;
         state.curr = value;
 
