@@ -5,7 +5,11 @@ var Util = require('./Util');
 
 var Gpio = onoff.Gpio;
 
-module.exports = function(pin_r, pin_g, pin_b){
+// 000 OFF // 001 BLUE // 010 GREEN // 011 CYAN
+    // 100 RED // 101 PINK // 110 YELLOW // 111 WHITE
+var RGB = function (pin_r, pin_g, pin_b){
+    var cyclePosition = 0;
+
     var FLAG = {
         R: 4,
         G: 2,
@@ -23,8 +27,6 @@ module.exports = function(pin_r, pin_g, pin_b){
         state(mask);
     };
 
-    // 000 OFF // 001 BLUE // 010 GREEN // 011 CYAN
-    // 100 RED // 101 PINK // 110 YELLOW // 111 WHITE
     function state(mask){
         pins.r.write(Pins.flip(mask, FLAG.R),
             function(){});
@@ -32,10 +34,20 @@ module.exports = function(pin_r, pin_g, pin_b){
             function(){});
         pins.b.write(Pins.flip(mask, FLAG.B),
             function(){});
-    }
+    };
+
+    function cycle() {
+        cyclePosition = (cyclePosition + 1) % 7;
+        state(mask);
+    };
 
     return {
         state: state,
-        randomize: random
+        randomize: random,
+        cycle: cycle
     };
 };
+
+// EXPORTS
+
+module.exports = RGB;
