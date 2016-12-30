@@ -1,7 +1,7 @@
 // IMPORTS
 var onoff = require('onoff');
 var Pins = require('./Pins');
-var Util = require('./js/Util');
+var Utilities = require('./js/Utilities');
 
 var Gpio = onoff.Gpio;
 
@@ -19,7 +19,7 @@ module.exports = function(pin_r, pin_g, pin_b){
     };
 
     function random() {
-        var mask = Util.getRandomInt(0, 7);
+        var mask = Utilities.getRandomInt(0, 7);
         state(mask);
     };
 
