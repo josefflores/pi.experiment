@@ -54,37 +54,36 @@ var Button = function (pin, toggle_state, on, off) {
             state.press.duration = Date.now() - start;
             start = 0;
         }
+    };
+
+    var click_count = function (history) {
+        console.log(history);
+        if (history.length >= 2 &&
+            history[0] == 0 &&
+            history[1] == 1)
+            return 1 + click_count(history.slice(2))
+        return 1;
+    };
+
+    //  WATCHER
+
+    button.watch(function (err, value) {
+        if (err) throw err;
+        state.history.unshift(value);
+        toggle_state ? toggle(value) : moment(value);
+        metrics();
+        state.history = state.history.slice(0, length); // keep only ten readings
+        state.switch ? on() : off();
+        console.log(state);
+    });
+
+
+    return {
+        button: button,
+        stats: function () {
+            return state;
+        }
     }
 };
-
-var click_count = function (history) {
-    console.log(history);
-    if (history.length >= 2 &&
-        history[0] == 0 &&
-        history[1] == 1)
-        return 1 + click_count(history.slice(2))
-    return 1;
-};
-
-//  WATCHER
-
-button.watch(function (err, value) {
-    if (err) throw err;
-    state.history.unshift(value);
-    toggle_state ? toggle(value) : moment(value);
-    metrics();
-    state.history = state.history.slice(0, length); // keep only ten readings
-    state.switch ? on() : off();
-    console.log(state);
-});
-
-
-return {
-    button: button,
-    stats: function () {
-        return state;
-    }
-}
-}
 
 module.exports = Button;
