@@ -73,7 +73,8 @@ var pins = {
     g: new Gpio(17, 'out'),
     b: new Gpio(4, 'out'),
     b_23: new Gpio(23, 'out'),
-    b_24: new Gpio(24, 'in', 'rising')
+    b_24_r: new Gpio(24, 'in', 'rising'),
+    b_24_f: new Gpio(24, 'in', 'falling')
 };
 
 // Feed power to button
@@ -81,13 +82,12 @@ pins.b_23.write(1, function(){
     console.log('button on');
 });
 
-pins.b_24.watch(function (err, value) {
-    console.log(err, value);
-    if (err) throw err;
+pins.b_24_r.watch(function (err, value) {
+    console.log('RISE', err, value);
+});
 
-    pins.r.write(value, function(){
-        console.log('R');
-    });
+pins.b_24_f.watch(function (err, value) {
+    console.log('FALL', err, value);
 });
 
 // Blink light
