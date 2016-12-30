@@ -37,7 +37,7 @@ var RGB = function (pin_r, pin_g, pin_b){
     };
 
     function cycle() {
-        cyclePosition = (cyclePosition + 1) % 7;
+        cyclePosition = (cyclePosition + 1) % 8;
         state(cyclePosition);
     };
 
