@@ -6,9 +6,9 @@
 
 var Gpio = require('onoff').Gpio;
 
-var RGB = require('./js/RGB');
-var Pins = require('./js/Pins');
-var Button = require('./js/Button');
+var RGB = require('../js/RGB');
+var Pins = require('../js/Pins');
+var Button = require('../js/Button');
 
 //  VARIABLES
 

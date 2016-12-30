@@ -4,28 +4,37 @@ var Gpio = require('onoff').Gpio;
 
 var Button = function(pin, toggle_state, on, off){
 
-    var button = new Gpio(pin, 'in', 'both');
+    //  VARIABLES
 
-    var state = {
-        last: 0,
-        curr: 0,
+    var button = new Gpio(pin, 'in', 'both'),
+        state = {
+        history: [0],
         switch: false,
     };
+
 
     //  FUNCTIONS
 
     var moment = function(value){
         state.switch = value && 1;
+        console.log(value);
     };
 
     var toggle = function(value){
-        state.last = state.curr;
-        state.curr = value;
+        state.history.push(value)
+        state.history.remove(-1);
 
-        if (state.last == 0 &&
-            state.curr == 1)
+        if (state.history[0] == 1 &&
+            state.history[1] == 0)
                 state.switch = !state.switch;
-    }
+    };
+
+    var click = function(){
+        if (state.history[0] == 1 &&
+            state.history[1] == 0)
+                return true;
+        return false;
+    };
 
     //  WATCHER
 
