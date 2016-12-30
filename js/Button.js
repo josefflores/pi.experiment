@@ -41,7 +41,7 @@ var Button = function (pin, toggle_state, on, off) {
             state.history[1] == 1 &&
             state.history[2] == 0 ) {
                 state.click.was = true;
-                state.click.count = click_count();
+                state.click.count = click_count(state.history);
 
         } else {
             state.click.was = false;
