@@ -17,14 +17,14 @@ module.exports = function(pin_r, pin_g, pin_b){
         b: new Gpio(pin_b, 'out')
     };
 
-    function rgbRandom() {
+    function random() {
         var mask = getRandomInt(0, 7);
-        rgb(mask);
+        state(mask);
     };
 
     // 000 OFF // 001 BLUE // 010 GREEN // 011 CYAN
     // 100 RED // 101 PINK // 110 YELLOW // 111 WHITE
-    function rgb(mask){
+    function state(mask){
         pins.r.write(Pins.flip(mask, FLAG.R),
             function(){});
         pins.g.write(Pins.flip(mask, FLAG.G),
@@ -33,4 +33,8 @@ module.exports = function(pin_r, pin_g, pin_b){
             function(){});
     }
 
+    return {
+        state: state,
+        randomize: random
+    };
 };
