@@ -1,6 +1,7 @@
 // IMPORTS
 var onoff = require('onoff');
 var RGB = require('./RGB');
+var Pins = require('./Pins');
 
 var Gpio = onoff.Gpio,
     interval;
