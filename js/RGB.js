@@ -58,16 +58,16 @@ var RGB = function (pin_r, pin_g, pin_b){
      * @param val: <int>: The state value
      */
     function state(val){
-        console.log(Pins);
+        pin = new Pins();
 
         //  RED
-        p.r.write(Pins.flip(val, mask.R),
+        p.r.write(pin.flip(val, mask.R),
             function(){});
         //  GREEN
-        p.g.write(Pins.flip(val, mask.G),
+        p.g.write(pin.flip(val, mask.G),
             function(){});
         // BLUE
-        p.b.write(Pins.flip(val, mask.B),
+        p.b.write(pin.flip(val, mask.B),
             function(){});
     };
 
