@@ -71,8 +71,8 @@ var Button = function (pin, toggle_state, on, off) {
 
     var click_count = function (history) {
         if (history.length == 2 &&
-            history[0] == 1 &&
-            history[1] == 0)
+            history[0] == 0 &&
+            history[1] == 1)
             return 1 + click_count(history.slice(2))
         return 0;
     };
