@@ -73,7 +73,7 @@ var pins = {
     g: new Gpio(17, 'out'),
     b: new Gpio(4, 'out'),
     b_23: new Gpio(23, 'out'),
-    b_24: new Gpio(24, 'in')
+    b_24: new Gpio(24, 'in', 'rising')
 };
 
 // Feed power to button
