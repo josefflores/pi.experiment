@@ -40,7 +40,8 @@ var RGB = function (pin_r, pin_g, pin_b){
      *  @function randomize
      */
     function randomize() {
-        state(Util.getRandomInt(0, 7));
+        var u = new Util;
+        state(u.getRandomInt(0, 7));
     };
 
     /**
