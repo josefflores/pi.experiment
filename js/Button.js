@@ -32,9 +32,9 @@ var Button = function (pin, toggle_state, on, off) {
         stats.history.unshift(value);
 
         //  Start clock if it has not been started
-        if (stats.history[0] == 1 && stats.history[1] == 1)
-            start = Date.now();
-        else stats.duration = Date.now() - start;
+        if (stats.history[0] == 1 && stats.history[1] == 0)
+            start = new Date().getTime();
+        else stats.duration = (new Date().getTime()) - start;
 
         stats.history = stats.history.slice(0, length); // keep only 10 readings
 
