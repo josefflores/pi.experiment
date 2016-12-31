@@ -47,7 +47,7 @@ var Button = function (pin, toggle_state, on, off) {
         if (value == 0 && duration <= 150){
             ++stats.consecutive.click;
             stats.consecutive.press = 0;
-        } else {
+        } else if (value == 0) {
             stats.consecutive.click = 0;
             ++stats.consecutive.press;
         }
