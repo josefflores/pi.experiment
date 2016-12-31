@@ -57,7 +57,7 @@ var Button = function (pin, toggle_state, on, off) {
     var metrics = function (value) {
         history(value); //  The history of high low readings
         duration(value); //  The duration of the last high state
-        type(); //  The type of action
+        type(value); //  The type of action
         return stats;
     };
 
