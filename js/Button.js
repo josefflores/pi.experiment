@@ -44,10 +44,10 @@ var Button = function (pin, toggle_state, on, off) {
     };
 
     var type = function(value){
-        if (value == 0 && duration <= 150){
+        if (value == 0 && stats.duration <= 150){
             ++stats.consecutive.click;
             stats.consecutive.press = 0;
-        } else if (value == 0) {
+        } else if (value == 0 && stats.duration > 150) {
             stats.consecutive.click = 0;
             ++stats.consecutive.press;
         }
