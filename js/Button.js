@@ -44,12 +44,14 @@ var Button = function (pin, toggle_state, on, off) {
     };
 
     var type = function(value){
-        if (value == 0 && stats.duration <= 150){
-            ++stats.consecutive.click;
-            stats.consecutive.press = 0;
-        } else if (value == 0 && stats.duration > 150) {
-            stats.consecutive.click = 0;
-            ++stats.consecutive.press;
+        if (value == 0 && stats.history[1] == 1) {
+            if (stats.duration <= 150){
+                ++stats.consecutive.click;
+                stats.consecutive.press = 0;
+            } else if (stats.duration > 150) {
+                stats.consecutive.click = 0;
+                ++stats.consecutive.press;
+            }
         }
     }
 
@@ -60,7 +62,7 @@ var Button = function (pin, toggle_state, on, off) {
                 start = new Date().getTime();
                 stats.duration = 0;
         } else if (value == 1 &&
-                   stats.history[1]) {
+                   stats.history[1] == 1) {
             stats.duration = (new Date().getTime()) - start;
         } else if (value == 0){
             stats.duration = (new Date().getTime()) - start;
