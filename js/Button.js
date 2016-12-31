@@ -55,10 +55,14 @@ var Button = function (pin, toggle_state, on, off) {
 
     var duration = function(value){
         //  Start clock if it has not been started
-        if (value && stats.history[1] == 0) {
-            start = new Date().getTime();
-            stats.duration = 0;
-        } else if (value && stats.history[1]) {
+        if (value == 1 &&
+            stats.history[1] == 0) {
+                start = new Date().getTime();
+                stats.duration = 0;
+        } else if (value == 1 &&
+                   stats.history[1]) {
+            stats.duration = (new Date().getTime()) - start;
+        } else if (value == 0){
             stats.duration = (new Date().getTime()) - start;
         }
     }
@@ -66,13 +70,11 @@ var Button = function (pin, toggle_state, on, off) {
 
     button.watch(function (err, value) {
         if (err) throw err;
-
-
+        // Button type
         toggle_state ? toggle(value) : moment(value);
-
         // Gather button metrics
-        console.log(metrics(value));
-
+        console.log(metrics(stats.switch));
+        // Callback
         stats.switch ? on() : off();
     });
 
