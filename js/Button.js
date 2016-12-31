@@ -56,7 +56,7 @@ var Button = function (pin, toggle_state, on, off) {
      */
     var metrics = function (value) {
         history(value); //  The history of high low readings
-        duration(); //  The duration of the last high state
+        duration(value); //  The duration of the last high state
         type(); //  The type of action
         return stats;
     };
@@ -77,10 +77,11 @@ var Button = function (pin, toggle_state, on, off) {
      *  occurred in a row.
      *
      *  @function type
+     *  @param value: <int>: High / Low signal
      */
-    var type = function () {
+    var type = function (value) {
         // Button just went high
-        if (stats.history[0] == 0 && //  On Rise
+        if (value == 0 && //  On Rise
             stats.history[1] == 1) {
             //  Click Detected
             if (stats.duration > CLICK_LENGTH) {
@@ -98,18 +99,19 @@ var Button = function (pin, toggle_state, on, off) {
      *  How long the action was active for.
      *
      *  @function duration
+     *  @param value: <int>: High / Low signal
      */
-    var duration = function () {
+    var duration = function (value) {
         // Button just went high
-        if (stats.history[0] == 1 && //  rise
+        if (value == 1 && //  rise
             stats.history[1] == 0) {
             //  Start clock if it has not been started
             start = new Date().getTime();
             stats.duration = 0;
 
             // Button has maintained high or just dropped
-        } else if ((stats.history[0] == 0) || //  drop
-            (stats.history[0] == 1 && // maintained rise
+        } else if ((value == 0) || //  drop
+            (value == 1 && // maintained rise
                 stats.history[1] == 1)) {
             //  Start clock if it has not been started
             stats.duration = (new Date().getTime()) - start;
