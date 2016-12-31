@@ -127,9 +127,8 @@ var Button = function (pin, toggle_state, on, off) {
         // Gather button metrics
         console.log(metrics(value));
         // Callback
-        stats.switch ? on() : off();
+        stats.switch ? on(stats) : off(stats);
     });
-
 
     return {
         button: button,

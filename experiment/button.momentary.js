@@ -14,9 +14,9 @@ var Button = require('../js/Button');
 
 var led = new RGB(27,17,4);
 var button = new Button(24, false,
-    function(){
+    function(stats){
         led.state(4)
-    }, function(){
+    }, function(stats){
         led.state(0)
     });
 
