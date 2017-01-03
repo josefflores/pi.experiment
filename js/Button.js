@@ -7,14 +7,13 @@ var Button = function (pin, toggle_state, on, off) {
     //  VARIABLES
 
     var start = 0,
+        double = 0,
         CLICK_LENGTH = 150,
         HISTORY_LENGTH = 10,
         button = new Gpio(pin, 'in', 'both'),
         stats = {
-            consecutive: {
-                click: false,
-                press: false
-            },
+            click: 0,
+            press: 0,
             duration: 0,
             history: [0],
             switch: false,
@@ -85,12 +84,12 @@ var Button = function (pin, toggle_state, on, off) {
             stats.history[1] == 1) {
             //  Click Detected
             if (stats.duration > CLICK_LENGTH) {
-                ++stats.consecutive.press;
-                stats.consecutive.click = 0
+                ++stats.press;
+                stats.click = 0
                     //  Press Detected
             } else {
-                ++stats.consecutive.click;
-                stats.consecutive.press = 0
+                ++stats.click;
+                stats.press = 0
             }
         }
     }
