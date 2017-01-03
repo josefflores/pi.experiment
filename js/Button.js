@@ -122,10 +122,11 @@ var Button = function (pin, toggle_state, on, off) {
 
     button.watch(function (err, value) {
         if (err) throw err;
-        // Button type
+        // Gather button metrics based on button type
         toggle_state ? toggle(value) : moment(value);
-        // Gather button metrics
-        console.log(metrics(value));
+        metrics(stats.switch);
+        console.log(stats);
+
         // Callback
         stats.switch ? on(stats) : off(stats);
     });
