@@ -23,13 +23,6 @@ var button = new Button(24, false,
         led.state(0)
     });
 
-hosts.forEach(function(host){
-    ping.sys.probe(host, function(isAlive){
-        var msg = isAlive ? 'host ' + host + ' is alive' : 'host ' + host + ' is dead';
-        console.log(msg);
-    });
-});
-
 // Kill power on exit
 process.on('SIGINT', function() { //#F
     pins = new Pins();
