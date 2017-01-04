@@ -23,7 +23,7 @@ class Button {
         obj.button = new Gpio(obj.pin, 'in', 'both');
         obj.start = 0;
 
-        obj.button.watch(function (err, value) {
+        let watcher = (err, value) => {
 
             if (err) throw err;
 
@@ -37,7 +37,9 @@ class Button {
 
             // Callback
             _priv.ret.switch ? this.on(_priv.ret) : this.off(_priv.ret);
-        });
+        };
+
+        obj.button.watch(watcher);
 
         _private.set(this, obj);
     }
