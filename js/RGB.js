@@ -11,59 +11,53 @@ var Util = require('./Util');
 
 var Gpio = onoff.Gpio;
 
+
+
 //  CLASS
+
+let _private = new WeakMap();
 
 /**
  * The RGB led class for the raspberry pi experiments
  *
  * @class RGB
- * @param pin_r: <int>: The red input pin
- * @param pin_g: <int>: The green input pin
- * @param pin_b: <int>: The blue input pin
+ * @param <object>.rPin: <int>: The red input pin
+ * @param <object>.gPin: <int>: The green input pin
+ * @param <object>.bPin: <int>: The blue input pin
  */
-var RGB = function (obj) {
+class RGB {
 
-    // VARIABLES
-
-    var cyclePosition = 0,
-        mask = {
+    constructor(obj = {
+        rPin: 4,
+        gPin: 4,
+        bPin: 4
+    }) {
+        obj.cyclePosition = 0;
+        obj.mask = {
             r: 4,
             g: 2,
             b: 1
-        },
-        p = {
+        };
+        obj.p = {
             r: new Gpio(obj.rPin, 'out'),
             g: new Gpio(obj.gPin, 'out'),
             b: new Gpio(obj.bPin, 'out')
-        },
-        ret = {
-            state: state,
-            randomize: randomize,
-            cycle: cycle,
-            delay: delay
         };
 
-    // FUNCTIONS
-
-    /**
-     *  Randomly chooses an RGB state
-     *  @function randomize
-     */
-    function randomize() {
-        state((new Util).getRandomInt(0, 7));
-        return ret;
-    };
+        _private.set(this, obj);
+    }
 
     /**
      *  Delays the execution of a function while returning the object for chaining.
      *
-     * @param time: <int>: The delay length in milliseconds
-     * @param cb: <func>: The function to called
-     * @return obj: <obj>: The led object
+     *  @method delay
+     *  @param  time: <int>: The delay length in milliseconds
+     *  @param  cb: <func>: The function to called
+     *  @return <RGB>: This object for chaining
      */
-    function delay(time, cb) {
+    delay(time, cb) {
         setTimeout(cb, time);
-        return ret;
+        return this;
     }
 
     /**
@@ -78,40 +72,56 @@ var RGB = function (obj) {
      * 6 - 110 YELLOW
      * 7 - 111 WHITE
      *
-     * @param val: <int>: The state value
-     * @param val: <int>: The delay time
+     *  @param  val: <int>: The state value
+     *  @param  val: <int>: The delay time
+     *  @return <RGB>: This object for chaining
      */
-    function state(val, time) {
+    state(val, time) {
+        let _priv = _private.get(this);
 
         if (time) {
-            return delay(time, function () {
-                ret.state(val)
-            });
+            let futureState = () => {
+                this.state(val)
+            };
+            return delay(time, futureState);
         }
 
         pin = new Pins();
 
         //  Colorize led
-        ['r', 'g', 'b'].forEach(function(input){
-            p[input].write(pin.flip(val, mask[input]),
-                function () {});
+        ['r', 'g', 'b'].forEach((input) => {
+            _priv.p[input].write(pin.flip(val, _priv.mask[input]),
+                () => {})
         });
 
-        return ret;
-    };
+        return this;
+    }
 
     /**
      * Cycles through the RGB states every time it is called.
      *
-     * @function cycle
+     * @method cycle
+     * @return <RGB>: This object for chaining
      */
-    function cycle() {
-        state((cyclePosition = (cyclePosition + 1) % 8));
-        return ret;
-    };
+    cycle() {
+        let _priv = _private.get(this);
 
-    return ret;
-};
+        _priv.cyclePosition = ((_priv.cyclePosition = 1) % 8);
+        _private.set(this, _priv);
+
+        return state(_priv.cyclePosition);
+    }
+
+    /**
+     *  Randomly chooses an RGB state
+     *
+     *  @method randomize
+     *  @return <RGB>: This object for chaining
+     */
+    randomize() {
+        return this.state((new Util).getRandomInt(0, 7));
+    }
+}
 
 // EXPORTS
 
