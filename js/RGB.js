@@ -32,9 +32,9 @@ var RGB = function (obj) {
             b: 1
         },
         p = {
-            r: new Gpio(obj.pin_r, 'out'),
-            g: new Gpio(obj.pin_g, 'out'),
-            b: new Gpio(obj.pin_b, 'out')
+            r: new Gpio(obj.rPin, 'out'),
+            g: new Gpio(obj.gPin, 'out'),
+            b: new Gpio(obj.bPin, 'out')
         },
         ret = {
             state: state,
