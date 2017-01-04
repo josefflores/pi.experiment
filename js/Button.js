@@ -136,7 +136,7 @@ var Button = function (obj) {
 
     button.watch(function (err, value) {
         if (err) throw err;
-        value = bool(value);
+        value = Boolean(value);
         // Gather button metrics based on button type
         obj.toggle ? toggle(value) : moment(value);
         console.log(metrics(ret.switch));
