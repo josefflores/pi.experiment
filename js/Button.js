@@ -39,9 +39,10 @@ var Button = function (obj) {
      *  @param value: <int>: High / Low signal
      */
     var toggle = function (value) {
-        // Button just went high
-        if (state('RISE', value))
+        if (state('RISE', value)){
+            console.log(ret.switch);
             ret.switch = !ret.switch;
+        }
     };
 
     /**
@@ -136,9 +137,7 @@ var Button = function (obj) {
 
     button.watch(function (err, value) {
         if (err) throw err;
-        console.log(value);
         value = Boolean(value);
-        console.log(value);
         // Gather button metrics based on button type
         obj.toggle ? toggle(value) : moment(value);
         console.log(metrics(ret.switch));
