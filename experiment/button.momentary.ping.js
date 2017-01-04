@@ -19,8 +19,7 @@ var button = new Button(24, false,
         led.state(0);
 
         ping.sys.probe('192.168.1.149', function(isAlive){
-            (isAlive ? led.state(2) : led.state(4))
-                .state(0, 1000);
+            isAlive ? led.state(2).state(0, 1000) : led.state(4).state(0, 1000);
         });
 
     }, function(stats){
