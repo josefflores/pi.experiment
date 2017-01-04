@@ -16,9 +16,12 @@ var ping = require('ping');
 var led = new RGB(27,17,4);
 var button = new Button(24, false,
     function(stats){
+        led.state(0);
+
         ping.sys.probe('192.168.1.149', function(isAlive){
             isAlive ? led.state(2) : led.state(4);
         });
+
     }, function(stats){
         led.state(0)
     });
