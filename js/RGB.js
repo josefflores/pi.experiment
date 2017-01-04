@@ -77,6 +77,7 @@ class RGB {
      *  @return <RGB>: This object for chaining
      */
     state(val, time) {
+        let pin = new Pins();
         let _priv = _private.get(this);
 
         if (time) {
@@ -85,8 +86,6 @@ class RGB {
             };
             return delay(time, futureState);
         }
-
-        pin = new Pins();
 
         //  Colorize led
         ['r', 'g', 'b'].forEach((input) => {
