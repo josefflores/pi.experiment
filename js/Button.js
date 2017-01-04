@@ -40,7 +40,7 @@ var Button = function (obj) {
      */
     var toggle = function (value) {
         // Button just went high
-        if (ret.history[0] == 1 && //  Rise
+        if (value && //  Rise
             ret.history[1] == 0)
             ret.switch = !ret.switch;
     };
