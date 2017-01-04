@@ -2,23 +2,57 @@
 
 var Gpio = require('onoff').Gpio;
 
-var Button = function (obj) {
+var _private = new WeakMap();
 
-    //  VARIABLES
-
-    var button = new Gpio(obj.pin, 'in', 'both'),
-        ret = {
+class Button {
+    constructor(obj = {
+        clickLength: 150,
+        historyLength: 10,
+        off: () => {},
+        on: () => {},
+        pin: null,
+        toggle: false
+    }) {
+        obj.ret = {
             click: 0,
             press: 0,
             duration: 0,
             history: [false],
             switch: false,
-        },
-        start = 0,
-        CLICK_LENGTH = 150,
-        HISTORY_LENGTH = 10;
+        };
+        obj.button = new Gpio(obj.pin, 'in', 'both');
+        obj.start = 0;
 
-    //  FUNCTIONS
+        obj.button.watch(function (err, value) {
+
+            if (err) throw err;
+
+            let _priv = _private.get(this);
+
+            value = Boolean(value);
+
+            // Gather button metrics based on button type
+            _priv.toggle ? this.toggle(value) : this.moment(value);
+            console.log(this.metrics(_priv.ret.switch));
+
+            // Callback
+            _priv.ret.switch ? this.on(_priv.ret) : this.off(_priv.ret);
+        });
+
+        _private.set(this, obj);
+    }
+
+    get button() {
+        return _private.get(this).button;
+    }
+
+    get on() {
+        return _private.get(this).on
+    }
+
+    get off() {
+        return _private.get(this).off
+    }
 
     /**
      *  Button type - Momentary
@@ -27,9 +61,10 @@ var Button = function (obj) {
      *  @function moment
      *  @param value: <int>: High / Low signal
      */
-    var moment = function (value) {
-        ret.switch = value;
-    };
+    moment(value) {
+        let _priv = _private.get(this);
+        _priv.ret.switch = value;
+    }
 
     /**
      *  Button type - Toggle
@@ -38,13 +73,14 @@ var Button = function (obj) {
      *  @function toggle
      *  @param value: <int>: High / Low signal
      */
-    var toggle = function (value) {
-        if (state('RISE', value)){
-            ret.switch = !ret.switch;
+    toggle(value) {
+        let _priv = _private.get(this);
+        if (state('RISE', value)) {
+            _priv.ret.switch = !_priv.ret.switch;
         } else {
-            ret.switch = !ret.switch;
+            _priv.ret.switch = !_priv.ret.switch;
         }
-    };
+    }
 
     /**
      *  Calculate the button metrics.
@@ -53,16 +89,18 @@ var Button = function (obj) {
      *  @param      value: <int>: The High / Low state
      *  @return     <obj>: The button ret object
      */
-    var metrics = function (value) {
+    metrics(value) {
+        let _priv = _private.get(this);
+
         /**
-         *  Records the last HISTORY_LENGTH button readings
+         *  Records the last obj.historyLength button readings
          *
          *  @function   history
          *  @param      value: <int>: The High / Low state
          */
-        var history = function (value) {
-            ret.history.unshift(value);
-            ret.history = ret.history.slice(0, HISTORY_LENGTH); // keep only 10 readings
+        function history(value) {
+            _priv.ret.history.unshift(value);
+            _priv.ret.history = _priv.ret.history.slice(0, _priv.historyLength); // keep only 10 readings
         };
 
         /**
@@ -72,14 +110,14 @@ var Button = function (obj) {
          *  @function type
          *  @param value: <int>: High / Low signal
          */
-        var type = function (value) {
+        function type(value) {
             if (state('DROP', value)) { //  On Rise
-                if (ret.duration > CLICK_LENGTH) { //  Click Detected
-                    ++ret.press;
-                    ret.click = 0;
+                if (_priv.ret.duration > _priv.clickLength) { //  Click Detected
+                    ++_priv.ret.press;
+                    _priv.ret.click = 0;
                 } else { //  Press Detected
-                    ++ret.click;
-                    ret.press = 0;
+                    ++_priv.ret.click;
+                    _priv.ret.press = 0;
                 }
             }
         };
@@ -90,14 +128,14 @@ var Button = function (obj) {
          *  @function duration
          *  @param value: <int>: High / Low signal
          */
-        var duration = function (value) {
+        function duration(value) {
             if (state('RISE', value)) {
                 //  Start clock if it has not been started
-                start = new Date().getTime();
-                ret.duration = 0;
+                _priv.start = new Date().getTime();
+                _priv.ret.duration = 0;
             } else if (state('DROP', value) || state('WAS_HIGH', value)) {
                 //  Start clock if it has not been started
-                ret.duration = (new Date().getTime()) - start;
+                _priv.ret.duration = (new Date().getTime()) - _priv.start;
             }
         };
 
@@ -105,8 +143,8 @@ var Button = function (obj) {
         duration(value); //  The duration of the last high state
         type(value); //  The type of action
 
-        return ret;
-    };
+        return _priv.ret;
+    }
 
     /**
      *  Determines if the button is in the given state.
@@ -115,39 +153,26 @@ var Button = function (obj) {
      *  @param str: <string>: The state label
      *  @return <bool>: The button is in the state given by str
      */
-    function state(str, value) {
+    state(str, value) {
+        let _priv = _private.get(this);
+
         switch (str) {
             case 'OFF':
                 return !value;
             case 'ON':
                 return value;
             case 'WAS_HIGH':
-                return ret.history[1];
+                return _priv.ret.history[1];
             case 'WAS_LOW':
-                return !ret.history[1];
+                return !_priv.ret.history[1];
             case 'RISE':
-                return value && !ret.history[1];
+                return (value && !_priv.ret.history[1]);
             case 'DROP':
-                return !value && ret.history[1];
+                return (!value && _priv.ret.history[1]);
             default:
                 throw 'INVALID_STATE';
         }
     }
-
-    //  WATCHER
-
-    button.watch(function (err, value) {
-        if (err) throw err;
-        value = Boolean(value);
-        // Gather button metrics based on button type
-        console.log(obj.toggle);
-        obj.toggle ? toggle(value) : moment(value);
-        console.log(metrics(ret.switch));
-        // Callback
-        ret.switch ? obj.on(ret) : obj.off(ret);
-    });
-
-    return button;
 };
 
 module.exports = Button;
