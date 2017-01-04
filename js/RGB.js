@@ -21,7 +21,7 @@ var Gpio = onoff.Gpio;
  * @param pin_g: <int>: The green input pin
  * @param pin_b: <int>: The blue input pin
  */
-var RGB = function (pin_r, pin_g, pin_b){
+var RGB = function (pin_r, pin_g, pin_b) {
 
     // VARIABLES
 
@@ -56,8 +56,15 @@ var RGB = function (pin_r, pin_g, pin_b){
         return obj;
     };
 
-    function delay(time, callback){
-        setTimeout(callback, time);
+    /**
+     *  Delays the execution of a function while returning the object for chaining.
+     *
+     * @param time: <int>: The delay length in milliseconds
+     * @param cb: <func>: The function to called
+     * @return obj: <obj>: The led object
+     */
+    function delay(time, cb) {
+        setTimeout(cb, time);
         return obj;
     }
 
@@ -74,19 +81,27 @@ var RGB = function (pin_r, pin_g, pin_b){
      * 7 - 111 WHITE
      *
      * @param val: <int>: The state value
+     * @param val: <int>: The delay time
      */
-    function state(val){
+    function state(val, time) {
+
+        if (time) {
+            return delay(time, function () {
+                obj.state(val)
+            });
+        }
+
         pin = new Pins();
 
         //  RED
         p.r.write(pin.flip(val, mask.R),
-            function(){});
+            function () {});
         //  GREEN
         p.g.write(pin.flip(val, mask.G),
-            function(){});
+            function () {});
         // BLUE
         p.b.write(pin.flip(val, mask.B),
-            function(){});
+            function () {});
 
         return obj;
     };
