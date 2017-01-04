@@ -113,7 +113,7 @@ class Button {
          *  @param value: <int>: High / Low signal
          */
         function type(value, that) {
-            if (tthathis.state('DROP', value)) { //  On Rise
+            if (that.state('DROP', value)) { //  On Rise
                 if (_priv.ret.duration > _priv.clickLength) { //  Click Detected
                     ++_priv.ret.press;
                     _priv.ret.click = 0;
