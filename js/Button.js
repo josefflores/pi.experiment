@@ -28,7 +28,7 @@ var Button = function (obj) {
      *  @param value: <int>: High / Low signal
      */
     var moment = function (value) {
-        ret.switch = value;
+        ret.switch = value && 1;
     };
 
     /**
@@ -40,8 +40,7 @@ var Button = function (obj) {
      */
     var toggle = function (value) {
         // Button just went high
-        if (value && //  Rise
-            ret.history[1] == 0)
+        if (state('RISE', value))
             ret.switch = !ret.switch;
     };
 
@@ -72,12 +71,11 @@ var Button = function (obj) {
          *  @param value: <int>: High / Low signal
          */
         var type = function (value) {
-            // Button just went high
-            if (value == 0 && ret.history[1] == 1) {  //  On Rise
-                if (ret.duration > CLICK_LENGTH) {    //  Click Detected
+            if (state('DROP', value)) { //  On Rise
+                if (ret.duration > CLICK_LENGTH) { //  Click Detected
                     ++ret.press;
                     ret.click = 0;
-                } else {                                //  Press Detected
+                } else { //  Press Detected
                     ++ret.click;
                     ret.press = 0;
                 }
@@ -91,17 +89,11 @@ var Button = function (obj) {
          *  @param value: <int>: High / Low signal
          */
         var duration = function (value) {
-            // Button just went high
-            if (value == 1 && //  rise
-                ret.history[1] == 0) {
+            if (state('RISE', value)) {
                 //  Start clock if it has not been started
                 start = new Date().getTime();
                 ret.duration = 0;
-
-                // Button has maintained high or just dropped
-            } else if ((value == 0) || //  drop
-                (value == 1 && // maintained rise
-                    ret.history[1] == 1)) {
+            } else if (state('DROP', value) || state('WAS_HIGH', value)) {
                 //  Start clock if it has not been started
                 ret.duration = (new Date().getTime()) - start;
             }
@@ -113,6 +105,32 @@ var Button = function (obj) {
 
         return ret;
     };
+
+    /**
+     *  Determines if the button is in the given state.
+     *
+     *  @function state
+     *  @param str: <string>: The state label
+     *  @return <bool>: The button is in the state given by str
+     */
+    function state(str, value) {
+        switch (str) {
+            case 'OFF':
+                return !value && 1;
+            case 'ON':
+                return value && 1;
+            case 'WAS_HIGH':
+                return ret.history[1] && 1;
+            case 'WAS_LOW':
+                return !ret.history[1] && 1;
+            case 'RISE':
+                return value && !ret.history[1];
+            case 'DROP':
+                return !value && ret.history[1];
+            default:
+                throw 'INVALID_STATE';
+        }
+    }
 
     //  WATCHER
 
