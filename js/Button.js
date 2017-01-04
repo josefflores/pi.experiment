@@ -112,8 +112,8 @@ class Button {
          *  @function type
          *  @param value: <int>: High / Low signal
          */
-        function type(value) {
-            if (this.state('DROP', value)) { //  On Rise
+        function type(value, that) {
+            if (tthathis.state('DROP', value)) { //  On Rise
                 if (_priv.ret.duration > _priv.clickLength) { //  Click Detected
                     ++_priv.ret.press;
                     _priv.ret.click = 0;
@@ -130,20 +130,20 @@ class Button {
          *  @function duration
          *  @param value: <int>: High / Low signal
          */
-        function duration(value) {
-            if (this.state('RISE', value)) {
+        function duration(value, that) {
+            if (that.state('RISE', value)) {
                 //  Start clock if it has not been started
                 _priv.start = new Date().getTime();
                 _priv.ret.duration = 0;
-            } else if (this.state('DROP', value) || this.state('WAS_HIGH', value)) {
+            } else if (that.state('DROP', value) || that.state('WAS_HIGH', value)) {
                 //  Start clock if it has not been started
                 _priv.ret.duration = (new Date().getTime()) - _priv.start;
             }
         };
 
         history(value); //  The history of high low readings
-        duration(value); //  The duration of the last high state
-        type(value); //  The type of action
+        duration(value, this); //  The duration of the last high state
+        type(value, this); //  The type of action
 
         return _priv.ret;
     }
