@@ -13,16 +13,14 @@ var Gpio = onoff.Gpio;
 /**
  *  The Pin class for the raspberry pi experiments
  */
-var Pins = function () {
+class Pins {
 
-    //  VARIABLES
-
-    //  Available pins
-    var pins = [4, 5, 6, 12, 13, 16, 17, 18, 19,
-        20, 21, 22, 23, 24, 25, 26, 27
-    ];
-
-    //  FUNCTIONS
+    constructor(obj = {}) {
+            obj.pins = [4, 5, 6, 12, 13, 16, 17, 18, 19,
+                20, 21, 22, 23, 24, 25, 26, 27
+            ];
+        }
+        //  VARIABLES
 
     /**
      *  Flip a bit on or off based on bit mask.
@@ -33,9 +31,9 @@ var Pins = function () {
      *  @return <int>: 1: bit is on
      *  @return <int>: 0: bit is off
      */
-    var flip = function (input, mask) {
+    flip(input, mask) {
         return ((input & mask) > 0 ? 1 : 0);
-    };
+    }
 
     /**
      *  Resets a pin back to off, this is a problem because during early
@@ -46,35 +44,29 @@ var Pins = function () {
      *  @return <bool>: true: The pin selection was valid
      *  @return <bool>: false: The pin selection was invalid
      */
-    var reset = function (pin) {
+    reset(pin) {
         // Valid pin check
-        if (!(pins.indexOf(pin) + 1))
+        if (_private.get(this).pins.indexOf(pin) == -1)
             return false;
 
         var p = new Gpio(pin, 'out');
 
-        p.write(0, function () { //  Turn off current flow to stop leak
+        p.write(0, () => { //  Turn off current flow to stop leak
             p.writeSync(0); //  Turn LED off.
             p.unexport(); //  Unexport GPIO and free resources
         });
 
         return true;
-    };
+    }
 
     /**
      *  Resets all pins back to off.
      *
      *  @function resetAll
      */
-    var resetAll = function () {
-        pins.forEach(reset);
-    };
-
-    return {
-        flip: flip,
-        reset: reset,
-        resetAll: resetAll
-    };
+    resetAll() {
+        _private.get(this).forEach(reset);
+    }
 };
 
 //  EXPORTS
