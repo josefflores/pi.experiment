@@ -77,7 +77,7 @@ class Button {
      */
     toggle(value) {
         let _priv = _private.get(this);
-        if (state('RISE', value)) {
+        if (this.state('RISE', value)) {
             _priv.ret.switch = !_priv.ret.switch;
         } else {
             _priv.ret.switch = !_priv.ret.switch;
@@ -113,7 +113,7 @@ class Button {
          *  @param value: <int>: High / Low signal
          */
         function type(value) {
-            if (state('DROP', value)) { //  On Rise
+            if (this.state('DROP', value)) { //  On Rise
                 if (_priv.ret.duration > _priv.clickLength) { //  Click Detected
                     ++_priv.ret.press;
                     _priv.ret.click = 0;
@@ -131,11 +131,11 @@ class Button {
          *  @param value: <int>: High / Low signal
          */
         function duration(value) {
-            if (state('RISE', value)) {
+            if (this.state('RISE', value)) {
                 //  Start clock if it has not been started
                 _priv.start = new Date().getTime();
                 _priv.ret.duration = 0;
-            } else if (state('DROP', value) || state('WAS_HIGH', value)) {
+            } else if (this.state('DROP', value) || this.state('WAS_HIGH', value)) {
                 //  Start clock if it has not been started
                 _priv.ret.duration = (new Date().getTime()) - _priv.start;
             }
