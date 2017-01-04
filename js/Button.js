@@ -40,10 +40,8 @@ var Button = function (obj) {
      */
     var toggle = function (value) {
         if (state('RISE', value)){
-            console.log(ret.switch);
             ret.switch = !ret.switch;
         } else {
-            console.log(ret.switch);
             ret.switch = !ret.switch;
         }
     };
@@ -142,6 +140,7 @@ var Button = function (obj) {
         if (err) throw err;
         value = Boolean(value);
         // Gather button metrics based on button type
+        console.log(obj.toggle);
         obj.toggle ? toggle(value) : moment(value);
         console.log(metrics(ret.switch));
         // Callback
