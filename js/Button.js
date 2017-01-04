@@ -42,6 +42,9 @@ var Button = function (obj) {
         if (state('RISE', value)){
             console.log(ret.switch);
             ret.switch = !ret.switch;
+        } else {
+            console.log(ret.switch);
+            ret.switch = !ret.switch;
         }
     };
 
