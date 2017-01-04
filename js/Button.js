@@ -11,7 +11,7 @@ var Button = function (obj) {
             click: 0,
             press: 0,
             duration: 0,
-            history: [0],
+            history: [false],
             switch: false,
         },
         start = 0,
@@ -28,7 +28,7 @@ var Button = function (obj) {
      *  @param value: <int>: High / Low signal
      */
     var moment = function (value) {
-        ret.switch = value && 1;
+        ret.switch = value;
     };
 
     /**
@@ -116,13 +116,13 @@ var Button = function (obj) {
     function state(str, value) {
         switch (str) {
             case 'OFF':
-                return !value && 1;
+                return !value;
             case 'ON':
-                return value && 1;
+                return value;
             case 'WAS_HIGH':
-                return ret.history[1] && 1;
+                return ret.history[1];
             case 'WAS_LOW':
-                return !ret.history[1] && 1;
+                return !ret.history[1];
             case 'RISE':
                 return value && !ret.history[1];
             case 'DROP':
@@ -136,6 +136,7 @@ var Button = function (obj) {
 
     button.watch(function (err, value) {
         if (err) throw err;
+        value = bool(value);
         // Gather button metrics based on button type
         obj.toggle ? toggle(value) : moment(value);
         console.log(metrics(ret.switch));
