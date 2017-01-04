@@ -37,6 +37,13 @@ var RGB = function (pin_r, pin_g, pin_b){
             b: new Gpio(pin_b, 'out')
         };
 
+    var obj = {
+        state: state,
+        randomize: randomize,
+        cycle: cycle,
+        delay: delay
+    };
+
     // FUNCTIONS
 
     /**
@@ -46,7 +53,13 @@ var RGB = function (pin_r, pin_g, pin_b){
     function randomize() {
         var u = new Util;
         state(u.getRandomInt(0, 7));
+        return obj;
     };
+
+    function delay(time, callback){
+        setTimeout(callback, time);
+        return obj;
+    }
 
     /**
      * Sets an led to a given state
@@ -74,6 +87,8 @@ var RGB = function (pin_r, pin_g, pin_b){
         // BLUE
         p.b.write(pin.flip(val, mask.B),
             function(){});
+
+        return obj;
     };
 
     /**
@@ -84,13 +99,10 @@ var RGB = function (pin_r, pin_g, pin_b){
     function cycle() {
         cyclePosition = (cyclePosition + 1) % 8;
         state(cyclePosition);
+        return obj;
     };
 
-    return {
-        state: state,
-        randomize: randomize,
-        cycle: cycle
-    };
+    return obj;
 };
 
 // EXPORTS
