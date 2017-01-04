@@ -21,28 +21,27 @@ var Gpio = onoff.Gpio;
  * @param pin_g: <int>: The green input pin
  * @param pin_b: <int>: The blue input pin
  */
-var RGB = function (pin_r, pin_g, pin_b) {
+var RGB = function (obj) {
 
     // VARIABLES
 
     var cyclePosition = 0,
         mask = {
-            R: 4,
-            G: 2,
-            B: 1
+            r: 4,
+            g: 2,
+            b: 1
         },
         p = {
-            r: new Gpio(pin_r, 'out'),
-            g: new Gpio(pin_g, 'out'),
-            b: new Gpio(pin_b, 'out')
+            r: new Gpio(obj.pin_r, 'out'),
+            g: new Gpio(obj.pin_g, 'out'),
+            b: new Gpio(obj.pin_b, 'out')
+        },
+        ret = {
+            state: state,
+            randomize: randomize,
+            cycle: cycle,
+            delay: delay
         };
-
-    var obj = {
-        state: state,
-        randomize: randomize,
-        cycle: cycle,
-        delay: delay
-    };
 
     // FUNCTIONS
 
@@ -51,9 +50,8 @@ var RGB = function (pin_r, pin_g, pin_b) {
      *  @function randomize
      */
     function randomize() {
-        var u = new Util;
-        state(u.getRandomInt(0, 7));
-        return obj;
+        state((new Util).getRandomInt(0, 7));
+        return ret;
     };
 
     /**
@@ -65,7 +63,7 @@ var RGB = function (pin_r, pin_g, pin_b) {
      */
     function delay(time, cb) {
         setTimeout(cb, time);
-        return obj;
+        return ret;
     }
 
     /**
@@ -87,23 +85,19 @@ var RGB = function (pin_r, pin_g, pin_b) {
 
         if (time) {
             return delay(time, function () {
-                obj.state(val)
+                ret.state(val)
             });
         }
 
         pin = new Pins();
 
-        //  RED
-        p.r.write(pin.flip(val, mask.R),
-            function () {});
-        //  GREEN
-        p.g.write(pin.flip(val, mask.G),
-            function () {});
-        // BLUE
-        p.b.write(pin.flip(val, mask.B),
-            function () {});
+        //  Colorize led
+        ['r', 'g', 'b'].forEach(function(input){
+            p[input].write(pin.flip(val, mask[input]),
+                function () {});
+        });
 
-        return obj;
+        return ret;
     };
 
     /**
@@ -112,12 +106,11 @@ var RGB = function (pin_r, pin_g, pin_b) {
      * @function cycle
      */
     function cycle() {
-        cyclePosition = (cyclePosition + 1) % 8;
-        state(cyclePosition);
-        return obj;
+        state((cyclePosition = (cyclePosition + 1) % 8));
+        return ret;
     };
 
-    return obj;
+    return ret;
 };
 
 // EXPORTS

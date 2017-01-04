@@ -12,13 +12,21 @@ var Button = require('../js/Button');
 
 //  VARIABLES
 
-var led = new RGB(27,17,4);
-var button = new Button(24, true,
-    function(stats){
+var led = new RGB({
+    rPin: 27,
+    gPin: 17,
+    bPin: 4
+});
+
+var button = new Button({
+    pin: 24,
+    toggle: true,
+    on: function(stats){
         led.state(4)
-    }, function(stats){
+    },
+    off: function(stats){
         led.state(0)
-    });
+}});
 
 // Kill power on exit
 process.on('SIGINT', function() { //#F

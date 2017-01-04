@@ -13,7 +13,11 @@ var Gpio = onoff.Gpio;
 
 //  VARIABLES
 
-var led = new RGB(27,17,4);
+var led = new RGB({
+    rPin: 27,
+    gPin: 17,
+    bPin: 4
+});
 
 // Blink light
 var interval = setInterval(led.randomize, 2000);

@@ -18,12 +18,15 @@ var Pins = function(){
     //  VARIABLES
 
     //  Available pins
-    var pins = [4, 5, 6, 12, 13,
-                16, 17, 18, 19, 20,
-                21, 22, 23, 24, 25,
-                26, 27];
+    var pins = [4, 5, 6, 12, 13, 16, 17, 18, 19,
+                20, 21, 22, 23, 24, 25, 26, 27],
+        ret = {
+            flip: flip,
+            reset: reset,
+            resetAll: resetAll
+        };
 
-    //  FUNCITONS
+    //  FUNCTIONS
 
     /**
      *  Flip a bit on or off based on bit mask.
@@ -53,9 +56,10 @@ var Pins = function(){
             return false;
 
         var p = new Gpio(pin, 'out');
+
         p.write(0, function () {    //  Turn off current flow to stop leak
-            p.writeSync(0);         // Turn LED off.
-            p.unexport();           // Unexport GPIO and free resources
+            p.writeSync(0);         //  Turn LED off.
+            p.unexport();           //  Unexport GPIO and free resources
         });
 
         return true;
@@ -70,11 +74,7 @@ var Pins = function(){
         pins.forEach(reset);
     };
 
-    return {
-        flip: flip,
-        reset: reset,
-        resetAll: resetAll
-    };
+    return ret;
 };
 
 //  EXPORTS

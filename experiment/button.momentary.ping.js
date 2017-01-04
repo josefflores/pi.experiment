@@ -13,18 +13,28 @@ var ping = require('ping');
 
 //  VARIABLES
 
-var led = new RGB(27,17,4);
-var button = new Button(24, false,
-    function(stats){
+var led = new RGB({
+    rPin: 27,
+    gPin: 17,
+    bPin: 4
+});
+
+var button = new Button({
+    pin: 24,
+    toggle: false,
+    on: function(stats){
         led.state(0);
-    }, function(stats){
+    },
+    off: function(stats){
         ping.sys.probe('192.168.1.149', function(isAlive){
-            (isAlive ? led.state(2) : led.state(4)).state(0, 1000);
+            (isAlive ? led.state(2).state(0, 1000) :
+                led.state(4)).state(0, 1000);
             ping.sys.probe('192.168.1.156', function(isAlive){
-                (isAlive ? led.state(1) : led.state(4)).state(0, 1000);
+                (isAlive ? led.state(1).state(0, 1000) :
+                    led.state(4)).state(0, 1000);
             });
         });
-    });
+}});
 
 // Kill power on exit
 process.on('SIGINT', function() { //#F
